@@ -6,7 +6,7 @@ pkill picom
 picom --experimental-backends -b &
 xrandr --output DP-0 --mode 1920x1080 --rate 165
 nitrogen --restore &
-~/.config/polybar/launch.sh 
+~/.config/polybar/launch.sh &
 xset r rate 250 30 &
 
 #monitor
