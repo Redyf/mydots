@@ -6,6 +6,8 @@
   home.username = "mateus";
   home.homeDirectory = "/home/mateus";
 
+  nixpkgs.config.allowUnfree = true;
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -20,9 +22,11 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    starship alacritty pfetch unzip doas 
-  ];
+  nerdfonts htop starship alacritty pfetch unzip dunst nitrogen discord cava flameshot spotify rofi vscode neovim git polybar sxhkd bspwm picom python cargo 
   
+];
+
+
 #  home.file = {
 #    ".config/alacritty/alacritty.yml".text = ''
 #      env:

@@ -21,7 +21,7 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+  
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -31,16 +31,21 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "pt_BR.utf8";
 
+  # Enabling NUR repository
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+      inherit pkgs;
+    };
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "mateus";
   services.xserver.desktopManager.plasma5.enable = true;
-  # services.xserver.windowManager.awesome.enable = true;
-  # services.xserver.displayManager.defaultSession = "none+awesome";
+  services.xserver.windowManager.bspwm.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -92,36 +97,18 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-  #  Rice/Desktop
-     dunst nitrogen htop nitrogen picom neofetch alacritty cava eww 
-     #luarocks luadbi-mysql
-
-  #  Command-line tools
-     fzf appimage-run tree ripgrep playerctl bat wget unzip exa pkgs.doas sass
-     
-  #  Gui apps
-     firefox discord flameshot spotify rofi gtk3 lxappearance
+  font-awesome
   
-  #  Games
-
-  #  Development
-     vscode neovim git
-  #  gcc gnumake gnupatch lua  python3 nodejs curl
-  
-  #  Other things
-  #  pkgs.playerctl 
-  #  pkgs.light
   ];
-
+  
   #  Default Shell
      
      programs.zsh.enable = true;
      users.defaultUserShell = pkgs.zsh;
-  
-  #  Fonts
-     fonts.fonts = with pkgs; [
+
+  # Fonts
+
+  fonts.fonts = with pkgs; [
      dejavu_fonts
      go-font
      nerdfonts
@@ -138,6 +125,10 @@
      google-fonts
 ];
 
+
+  # Video drivers 
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
